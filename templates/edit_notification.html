@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Notification | SmartCampus Cloud</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px;
+            font-family: Arial, sans-serif;
+            background: #f3f6fc;
+            color: #172a4d;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+        }
+
+        h1 {
+            color: #1e3a8a;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 20px;
+            box-shadow: 0 4px 15px #0000000a;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            font-size: 14px;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        button, .cancel {
+            display: inline-block;
+            padding: 11px 20px;
+            border: none;
+            border-radius: 7px;
+            color: white;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .update-btn {
+            background: #2563eb;
+        }
+
+        .update-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .cancel {
+            background: #64748b;
+            margin-left: 8px;
+        }
+
+        .cancel:hover {
+            background: #475569;
+        }
+
+        .message {
+            padding: 12px;
+            margin-top: 10px;
+            background: #dcfce7;
+            color: #166534;
+            border-radius: 7px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>✏️ Edit Notification</h1>
+
+    <p>Update the notification details.</p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div class="message">{{ message }}</div>
+        {% endfor %}
+    {% endwith %}
+
+    <div class="card">
+
+        <form method="POST">
+
+            <label>Notification Title</label>
+
+            <input
+                type="text"
+                name="title"
+                value="{{ notification.title }}"
+                maxlength="200"
+                required
+            >
+
+            <label>Notification Message</label>
+
+            <textarea
+                name="message"
+                required
+            >{{ notification.message }}</textarea>
+
+            <button type="submit" class="update-btn">
+                Update Notification
+            </button>
+
+            <a href="{{ url_for('admin_notifications') }}"
+               class="cancel">
+                Cancel
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

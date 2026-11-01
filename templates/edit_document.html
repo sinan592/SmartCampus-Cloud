@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Document | SmartCampus Cloud</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f4f6;
+            padding: 40px;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 550px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #1e3a8a;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .current-file {
+            background: #eff6ff;
+            padding: 12px;
+            border-radius: 6px;
+            margin: 10px 0 20px;
+            color: #1e40af;
+            overflow-wrap: anywhere;
+        }
+
+        .help-text {
+            color: #6b7280;
+            font-size: 13px;
+            margin-top: -12px;
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .update-btn {
+            background: #2563eb;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .update-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .cancel-btn {
+            background: #6b7280;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+
+        .cancel-btn:hover {
+            background: #4b5563;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>✏️ Edit Document</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div style="padding:10px; margin-bottom:15px;
+                        background:#fee2e2; color:#991b1b;
+                        border-radius:5px;">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endwith %}
+
+    <form method="POST"
+          action="{{ url_for('edit_document', document_id=document.id) }}"
+          enctype="multipart/form-data">
+
+        <label>Document Title</label>
+
+        <input type="text"
+               name="title"
+               value="{{ document.title }}"
+               placeholder="Enter document title"
+               required>
+
+        <label>Description</label>
+
+        <textarea name="description"
+                  rows="4"
+                  placeholder="Enter document description">{{ document.description or '' }}</textarea>
+
+        <label>Current File</label>
+
+        <div class="current-file">
+            📄 {{ document.filename }}
+        </div>
+
+        <label>Upload New Document (Optional)</label>
+
+        <input type="file"
+               name="document"
+               accept=".pdf,.doc,.docx,.ppt,.pptx">
+
+        
+
+        <div class="buttons">
+
+            <button type="submit" class="update-btn">
+                Update Document
+            </button>
+
+            <a href="{{ url_for('admin_documents') }}"
+               class="cancel-btn">
+                Cancel
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+</html>

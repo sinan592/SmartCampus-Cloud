@@ -1,0 +1,286 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Enrolled Courses | SmartCampus</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f1f5fb;
+            color: #172554;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: #2563eb;
+            color: white;
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .brand {
+            color: white;
+            font-size: 22px;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .container {
+            width: min(1100px, 90%);
+            margin: 40px auto;
+        }
+
+        .hero {
+            background: linear-gradient(120deg, #1749c5, #6558df);
+            color: white;
+            padding: 32px;
+            border-radius: 20px;
+            margin-bottom: 28px;
+        }
+
+        .hero h1 {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            line-height: 1.7;
+            color: #e5edff;
+        }
+
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .course-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 8px 25px #17255408;
+        }
+
+        .course-icon {
+            font-size: 30px;
+            margin-bottom: 14px;
+        }
+
+        .course-card h2 {
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .course-card p {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .status {
+            display: inline-block;
+            background: #d1fae5;
+            color: #047857;
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-top: 8px;
+        }
+
+        .empty {
+            background: white;
+            text-align: center;
+            padding: 40px 20px;
+            border-radius: 16px;
+        }
+
+        .empty p {
+            color: #64748b;
+            margin: 12px 0 20px;
+        }
+
+        .button {
+            display: inline-block;
+            background: #2563eb;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+        }
+
+        .lesson-button {
+            display: inline-block;
+            background: #2563eb;
+            color: white;
+            padding: 11px 16px;
+            border-radius: 9px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            margin-top: 16px;
+        }
+
+        .lesson-button:hover {
+            background: #1d4ed8;
+        }
+
+        .unenroll-button {
+            background: #dc2626;
+            color: white;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 12px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 28px;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 25px;
+            color: #94a3b8;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="navbar">
+        <a class="brand" href="{{ url_for('dashboard') }}">
+            🎓 SmartCampus
+        </a>
+
+        <nav class="nav-links">
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('courses') }}">Explore Courses</a>
+            <a href="{{ url_for('profile') }}">My Profile</a>
+        </nav>
+    </header>
+
+    <main class="container">
+
+        <section class="hero">
+            <h1>My Enrolled Courses 📚</h1>
+            <p>View your enrolled courses and continue your learning journey.</p>
+        </section>
+
+        {% if enrollments %}
+
+            <div class="course-grid">
+
+                {% for enrollment in enrollments %}
+
+                    <article class="course-card">
+
+                        <div class="course-icon">📘</div>
+
+                        <h2>{{ enrollment.course_name }}</h2>
+
+                        <p>
+                            Enrolled on:
+                            {{ enrollment.enrolled_at.strftime('%d %b %Y, %I:%M %p') if enrollment.enrolled_at else 'Date unavailable' }}
+                        </p>
+
+                        <span class="status">✓ Enrolled</span>
+
+                        <!-- View Lessons Button -->
+                        {% set enrolled_course = namespace(id=none) %}
+                        {% for course in courses %}
+                            {% if course.name == enrollment.course_name %}
+                                {% set enrolled_course.id = course.id %}
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if enrolled_course.id %}
+                            <a class="lesson-button"
+                               href="{{ url_for('student_lessons', course_id=enrolled_course.id) }}">
+                                📖 View Lessons
+                            </a>
+                        {% else %}
+                            <p style="color:#dc2626; margin-top:12px;">
+                                Course is no longer available.
+                            </p>
+                        {% endif %}
+
+                        <!-- Unenroll Button -->
+                        <form method="POST"
+                              action="{{ url_for('unenroll', enrollment_id=enrollment.id) }}">
+
+                            <button type="submit" class="unenroll-button">
+                                Unenroll
+                            </button>
+
+                        </form>
+
+                    </article>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <section class="empty">
+                <h2>No enrolled courses yet</h2>
+
+                <p>
+                    Explore available courses and enroll in your first course.
+                </p>
+
+                <a class="button" href="{{ url_for('courses') }}">
+                    Explore Courses
+                </a>
+            </section>
+
+        {% endif %}
+
+        <a class="back-link" href="{{ url_for('dashboard') }}">
+            ← Back to Dashboard
+        </a>
+
+    </main>
+
+    <footer class="footer">
+        © 2026 SmartCampus Cloud · Learn · Connect · Grow
+    </footer>
+
+</body>
+</html>

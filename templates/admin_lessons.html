@@ -1,0 +1,306 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Lessons | SmartCampus</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f3f6ff;
+            color: #172554;
+        }
+
+        .navbar {
+            background: white;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e5eaf5;
+        }
+
+        .logo {
+            font-size: 21px;
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: #2563eb;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1150px;
+            margin: 35px auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            font-size: 26px;
+        }
+
+        .header p {
+            color: #64748b;
+            font-size: 14px;
+            margin-top: 7px;
+        }
+
+        .add-btn {
+            background: #2563eb;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .panel {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            border: 1px solid #e5eaf5;
+            box-shadow: 0 5px 20px #1e40af08;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 950px;
+        }
+
+        th {
+            background: #f1f5ff;
+            color: #64748b;
+            padding: 15px 12px;
+            text-align: left;
+            font-size: 12px;
+        }
+
+        td {
+            padding: 16px 12px;
+            border-bottom: 1px solid #edf0f6;
+            font-size: 13px;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .lesson-title {
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .course-badge {
+            background: #eaf1ff;
+            color: #2563eb;
+            padding: 6px 11px;
+            border-radius: 20px;
+            font-size: 11px;
+        }
+
+        .video-link {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .action {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .edit-btn, .delete-btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 7px;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .edit-btn {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .delete-btn {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .flash {
+            background: #e0f2fe;
+            color: #075985;
+            padding: 13px;
+            border-radius: 8px;
+            margin-bottom: 18px;
+            font-size: 14px;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 40px;
+            color: #94a3b8;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 25px;
+            color: #94a3b8;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="navbar">
+    <div class="logo">🎓 SmartCampus</div>
+    <a href="{{ url_for('admin_dashboard') }}">← Dashboard</a>
+</header>
+
+<main class="container">
+
+    <div class="header">
+        <div>
+            <h1>Manage Lessons</h1>
+            <p>Add, edit and manage lessons for your courses.</p>
+        </div>
+
+        <a href="{{ url_for('add_lesson') }}" class="add-btn">
+            + Add New Lesson
+        </a>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div class="flash">{{ message }}</div>
+        {% endfor %}
+    {% endwith %}
+
+    <div class="panel">
+
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Lesson Name</th>
+                    <th>Course</th>
+                    <th>Order</th>
+                    <th>Video</th>
+                    <th>Created</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for lesson in lessons %}
+
+                <tr>
+                    <td>{{ loop.index }}</td>
+
+                    <td class="lesson-title">
+                        {{ lesson.title }}
+                    </td>
+
+                    <td>
+                        {% if lesson.course %}
+                            <span class="course-badge">
+                                {{ lesson.course.name }}
+                            </span>
+                        {% else %}
+                            Course unavailable
+                        {% endif %}
+                    </td>
+
+                    <td>{{ lesson.lesson_order }}</td>
+
+                    <td>
+                        {% if lesson.video_url %}
+                            <a href="{{ lesson.video_url }}"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="video-link">
+                                ▶ Watch
+                            </a>
+                        {% else %}
+                            <span style="color:#94a3b8;">No video</span>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {{ lesson.created_at.strftime('%d-%m-%Y') if lesson.created_at else '-' }}
+                    </td>
+
+                    <td>
+                        <div class="action">
+
+                            <a href="{{ url_for('edit_lesson', lesson_id=lesson.id) }}"
+                               class="edit-btn">
+                                ✏️ Edit
+                            </a>
+
+                            <form method="POST"
+                                  action="{{ url_for('delete_lesson', lesson_id=lesson.id) }}"
+                                  onsubmit="return confirm('Are you sure you want to delete this lesson?');">
+
+                                <button type="submit" class="delete-btn">
+                                    🗑 Delete
+                                </button>
+
+                            </form>
+
+                        </div>
+                    </td>
+                </tr>
+
+                {% else %}
+
+                <tr>
+                    <td colspan="7" class="empty">
+                        No lessons available. Click Add New Lesson to begin.
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+        </table>
+
+    </div>
+
+</main>
+
+<footer class="footer">
+    © 2026 SmartCampus Cloud | Admin Portal
+</footer>
+
+</body>
+</html>

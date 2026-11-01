@@ -1,0 +1,250 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Events | SmartCampus</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f1f5fb;
+            color: #172554;
+        }
+
+        header {
+            background: linear-gradient(120deg, #173eb8, #2563eb);
+            color: white;
+            padding: 20px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        header h2 {
+            margin: 0;
+        }
+
+        nav {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        nav a:hover {
+            color: #dbeafe;
+        }
+
+        main {
+            width: 90%;
+            max-width: 1100px;
+            margin: 38px auto;
+        }
+
+        .hero {
+            padding: 32px;
+            border-radius: 22px;
+            color: white;
+            background: linear-gradient(120deg, #1749c5, #6558df);
+            margin-bottom: 30px;
+            box-shadow: 0 14px 35px #2563eb20;
+        }
+
+        .hero-label {
+            display: inline-block;
+            padding: 6px 11px;
+            border: 1px solid #ffffff55;
+            border-radius: 30px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .hero h1 {
+            margin: 0 0 12px;
+            font-size: clamp(28px, 4vw, 38px);
+        }
+
+        .hero p {
+            margin: 0;
+            color: #e5edff;
+            line-height: 1.7;
+        }
+
+        .section-heading {
+            margin: 30px 0 20px;
+        }
+
+        .section-heading h2 {
+            margin-bottom: 7px;
+        }
+
+        .section-heading p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .event-grid {
+            display: grid;
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(250px, 1fr)
+            );
+            gap: 22px;
+        }
+
+        .event-card {
+            background: white;
+            padding: 25px;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            box-shadow: 0 8px 24px #1725540a;
+            transition: transform .2s, box-shadow .2s;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 14px 30px #17255418;
+        }
+
+        .event-icon {
+            display: grid;
+            place-items: center;
+            width: 56px;
+            height: 56px;
+            background: #dbeafe;
+            border-radius: 16px;
+            font-size: 28px;
+            margin-bottom: 18px;
+        }
+
+        .event-card h3 {
+            margin: 0 0 12px;
+            font-size: 20px;
+        }
+
+        .event-card p {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .event-meta {
+            margin-top: 18px;
+            padding-top: 15px;
+            border-top: 1px solid #e2e8f0;
+            font-size: 13px;
+            line-height: 2;
+            color: #334155;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: #2563eb;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #94a3b8;
+            font-size: 12px;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 18px 5%;
+            }
+
+            main {
+                margin-top: 24px;
+            }
+
+            .hero {
+                padding: 24px;
+            }
+
+            .event-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h2>🎓 SmartCampus</h2>
+
+        <nav>
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('courses') }}">My Courses</a>
+            <a href="{{ url_for('profile') }}">My Profile</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <span class="hero-label">YOUR DIGITAL CAMPUS</span>
+            <h1>🎉 Campus Events</h1>
+            <p>
+                Discover workshops, competitions, technology events,
+                and opportunities around your campus.
+            </p>
+        </section>
+
+        <section>
+            <div class="section-heading">
+                <h2>Upcoming Events</h2>
+                <p>Explore the events listed in your student portal.</p>
+            </div>
+
+            <div class="event-grid">
+                {% for event in events %}
+                <article class="event-card">
+                    <div class="event-icon">📅</div>
+
+                    <h3>{{ event.name }}</h3>
+
+                    <p>{{ event.description }}</p>
+
+                    <div class="event-meta">
+                        <div>🗓️ {{ event.date }}</div>
+                        <div>📍 {{ event.location }}</div>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        </section>
+
+        <a class="back-link" href="{{ url_for('dashboard') }}">
+            ← Back to Dashboard
+        </a>
+    </main>
+
+    <footer>
+        SmartCampus Cloud · Learn · Connect · Grow
+    </footer>
+</body>
+</html>

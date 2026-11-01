@@ -1,0 +1,598 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartCampus Cloud | Student Portal</title>
+
+    <style>
+        :root {
+            --navy: #101d3a;
+            --blue: #4169e1;
+            --purple: #7657e8;
+            --text: #263451;
+            --muted: #74809a;
+            --background: #f4f6fc;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .navbar {
+            background: var(--navy);
+            color: white;
+            padding: 17px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            background: linear-gradient(135deg, #658bff, #9a6bff);
+            border-radius: 12px;
+            width: 46px;
+            height: 46px;
+            display: grid;
+            place-items: center;
+            font-size: 25px;
+        }
+
+        .brand h2 {
+            font-size: 20px;
+        }
+
+        .brand small {
+            color: #b8c8e8;
+            font-size: 10px;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: #dce5fa;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #8eacff;
+        }
+
+        .hero {
+            margin: 32px auto;
+            width: 86%;
+            max-width: 1250px;
+            padding: 65px 55px;
+            border-radius: 26px;
+            color: white;
+            background:
+                radial-gradient(circle at 85% 15%,
+                #7b70e8 0%, transparent 34%),
+                linear-gradient(120deg, #142b55, #344bc0 65%, #6555d9);
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 35px;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            background: #ffffff20;
+            border: 1px solid #ffffff35;
+            border-radius: 30px;
+            padding: 7px 14px;
+            font-size: 11px;
+            letter-spacing: 1.4px;
+            margin-bottom: 22px;
+        }
+
+        .hero h1 {
+            font-size: clamp(32px, 4vw, 52px);
+            line-height: 1.15;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            color: #dce5ff;
+            max-width: 520px;
+            margin-bottom: 28px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 13px 20px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-light {
+            background: white;
+            color: #243d96;
+        }
+
+        .btn-outline {
+            border: 1px solid #ffffff80;
+            color: white;
+            margin-left: 8px;
+        }
+
+        .hero-art {
+            display: grid;
+            place-items: center;
+            min-height: 220px;
+        }
+
+        .orbit {
+            width: 205px;
+            height: 205px;
+            border: 1px solid #ffffff55;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            position: relative;
+            background: #ffffff0c;
+        }
+
+        .orbit::before {
+            content: "";
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border: 1px dashed #ffffff75;
+            border-radius: 50%;
+        }
+
+        .cap {
+            font-size: 75px;
+            z-index: 1;
+        }
+
+        .float-icon {
+            position: absolute;
+            background: white;
+            color: #314ba9;
+            border-radius: 13px;
+            width: 47px;
+            height: 47px;
+            display: grid;
+            place-items: center;
+            font-size: 23px;
+            box-shadow: 0 8px 25px #101d3a35;
+        }
+
+        .float-one {
+            top: 10px;
+            right: 8px;
+        }
+
+        .float-two {
+            bottom: 8px;
+            left: 2px;
+        }
+
+        .section {
+            max-width: 1250px;
+            width: 86%;
+            margin: 45px auto;
+        }
+
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .section-heading h2 {
+            font-size: 26px;
+            margin-bottom: 4px;
+        }
+
+        .section-heading p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .section-label {
+            color: var(--blue);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 23px;
+            border-radius: 16px;
+            border: 1px solid #e9edf7;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            font-size: 23px;
+            flex-shrink: 0;
+        }
+
+        .stat-card h3 {
+            font-size: 15px;
+        }
+
+        .stat-card p {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .services {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .service-card {
+            background: white;
+            padding: 26px 22px;
+            border-radius: 17px;
+            border: 1px solid #e9edf7;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px #283f7912;
+        }
+
+        .service-icon {
+            height: 53px;
+            width: 53px;
+            border-radius: 15px;
+            display: grid;
+            place-items: center;
+            font-size: 25px;
+            margin-bottom: 20px;
+        }
+
+        .service-card h3 {
+            font-size: 17px;
+            margin-bottom: 10px;
+        }
+
+        .service-card p {
+            color: var(--muted);
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        .service-link {
+            color: var(--blue);
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .notice {
+            background: white;
+            border: 1px solid #e9edf7;
+            padding: 25px;
+            border-radius: 17px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .notice h3 {
+            margin-bottom: 5px;
+        }
+
+        .notice p {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        footer {
+            margin-top: 65px;
+            padding: 30px 7%;
+            background: var(--navy);
+            color: #dce5fa;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        footer p + p {
+            margin-top: 5px;
+            color: #9eb0d3;
+        }
+
+        @media (max-width: 1000px) {
+            .services {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero {
+                padding: 45px 35px;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .navbar {
+                padding: 16px 6%;
+            }
+
+            .nav-links {
+                gap: 14px;
+            }
+
+            .hero {
+                width: 92%;
+                grid-template-columns: 1fr;
+                padding: 35px 24px;
+                margin: 22px auto;
+            }
+
+            .hero-art {
+                min-height: 180px;
+            }
+
+            .orbit {
+                transform: scale(0.85);
+            }
+
+            .section {
+                width: 92%;
+                margin: 35px auto;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .services {
+                grid-template-columns: 1fr;
+            }
+
+            .section-heading {
+                align-items: start;
+                flex-direction: column;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .btn {
+                margin: 4px 0;
+            }
+
+            .btn-outline {
+                margin-left: 5px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="navbar">
+        <a class="brand" href="/">
+            <div class="brand-icon">🎓</div>
+            <div>
+                <h2>SmartCampus</h2>
+                <small>CLOUD STUDENT PORTAL</small>
+            </div>
+        </a>
+
+        <nav class="nav-links">
+            <a href="/">Home</a>
+            <a href="#services">Services</a>
+            <a href="#events">Events</a>
+            <a href="#about">About</a>
+            <a href="{{ url_for('register') }}">Register</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div>
+                <span class="eyebrow">YOUR DIGITAL CAMPUS</span>
+                <h1>Your Campus,<br>Connected.</h1>
+                <p>
+                    One simple platform for student services,
+                    campus events, complaint tracking and
+                    important documents.
+                </p>
+                <a href="#services" class="btn btn-light">
+                    Explore Services →
+                </a>
+                <a href="#about" class="btn btn-outline">
+                    Learn More
+                </a>
+            </div>
+
+            <div class="hero-art" aria-hidden="true">
+                <div class="orbit">
+                    <span class="cap">🎓</span>
+                    <span class="float-icon float-one">☁️</span>
+                    <span class="float-icon float-two">📚</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="about">
+            <div class="section-heading">
+                <div>
+                    <span class="section-label">YOUR CAMPUS AT A GLANCE</span>
+                    <h2>Everything in one place</h2>
+                    <p>Simple digital services for campus life.</p>
+                </div>
+            </div>
+
+            <div class="stats">
+                <article class="stat-card">
+                    <div class="stat-icon"
+                         style="background:#e8edff">📝</div>
+                    <div>
+                        <h3>Complaint Support</h3>
+                        <p>Submit and follow requests</p>
+                    </div>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-icon"
+                         style="background:#dcf8ed">📅</div>
+                    <div>
+                        <h3>Campus Activities</h3>
+                        <p>Explore upcoming events</p>
+                    </div>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-icon"
+                         style="background:#f0e8ff">🔐</div>
+                    <div>
+                        <h3>Secure Storage</h3>
+                        <p>Planned protected file access</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="section" id="services">
+            <div class="section-heading">
+                <div>
+                    <span class="section-label">CAMPUS SERVICES</span>
+                    <h2>How can we help you?</h2>
+                    <p>Explore the services planned for SmartCampus.</p>
+                </div>
+            </div>
+
+            <div class="services">
+                <article class="service-card">
+                    <div class="service-icon"
+                         style="background:#e8edff">📝</div>
+                    <h3>Complaints</h3>
+                    <p>
+                        Submit campus complaints and track
+                        their status in one place.
+                    </p>
+                    <a class="service-link" href="#about">
+                        Explore service →
+                    </a>
+                </article>
+
+                <article class="service-card" id="events">
+                    <div class="service-icon"
+                         style="background:#dcf8ed">📅</div>
+                    <h3>Campus Events</h3>
+                    <p>
+                        Discover campus activities and
+                        event registration opportunities.
+                    </p>
+                    <a class="service-link" href="#events">
+                        Explore events →
+                    </a>
+                </article>
+
+                <article class="service-card">
+                    <div class="service-icon"
+                         style="background:#f0e8ff">📁</div>
+                    <h3>Documents</h3>
+                    <p>
+                        A planned secure place for
+                        supporting files and documents.
+                    </p>
+                    <a class="service-link" href="#about">
+                        Learn more →
+                    </a>
+                </article>
+
+                <article class="service-card">
+                    <div class="service-icon"
+                         style="background:#fff0dc">🛡️</div>
+                    <h3>Account Security</h3>
+                    <p>
+                        Role-based access and protected
+                        student services.
+                    </p>
+                    <a class="service-link" href="#about">
+                        Learn more →
+                    </a>
+                </article>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="notice">
+                <div>
+                    <h3>Building a smarter campus</h3>
+                    <p>
+                        This student portal is being developed
+                        as an AWS cloud computing project.
+                    </p>
+                </div>
+                <a href="#services" class="btn btn-light"
+                   style="background:#4169e1;color:white">
+                    View Services →
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 SmartCampus Cloud</p>
+        <p>AWS Cloud Computing Final Project</p>
+    </footer>
+
+</body>
+</html>

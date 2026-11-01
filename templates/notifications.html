@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications | SmartCampus Cloud</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 40px 20px;
+            font-family: Arial, sans-serif;
+            background: #f3f6fc;
+            color: #172a4d;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .header {
+            padding: 35px;
+            border-radius: 18px;
+            color: white;
+            background: linear-gradient(120deg, #174fc5, #6554e8);
+        }
+
+        .header h1 {
+            margin-top: 0;
+        }
+
+        .notification {
+            margin-top: 18px;
+            padding: 22px;
+            border-radius: 12px;
+            background: white;
+            box-shadow: 0 4px 15px #0000000a;
+            border-left: 5px solid #2868f5;
+        }
+
+        .notification h3 {
+            margin-top: 0;
+        }
+
+        .notification p {
+            color: #536582;
+            line-height: 1.6;
+        }
+
+        .date {
+            color: #8794aa;
+            font-size: 13px;
+        }
+
+        .empty {
+            margin-top: 18px;
+            padding: 25px;
+            background: white;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 25px;
+            color: #2868f5;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .back:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 20px 12px;
+            }
+
+            .header {
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<main class="container">
+
+    <header class="header">
+        <h1>🔔 Notifications</h1>
+        <p>Stay updated with your campus announcements.</p>
+    </header>
+
+    {% for notification in notifications %}
+
+    <section class="notification">
+        <h3>🔔 {{ notification.title }}</h3>
+
+        <p>{{ notification.message }}</p>
+
+        <span class="date">
+            {{ notification.created_at.strftime('%d-%m-%Y %I:%M %p') }}
+        </span>
+    </section>
+
+    {% else %}
+
+    <div class="empty">
+        <h3>No Notifications Available</h3>
+        <p>There are no new campus announcements.</p>
+    </div>
+
+    {% endfor %}
+
+    <a class="back" href="{{ url_for('dashboard') }}">
+        ← Back to Dashboard
+    </a>
+
+</main>
+
+</body>
+</html>

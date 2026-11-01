@@ -1,0 +1,459 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Learning | SmartCampus</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --blue: #2563eb;
+            --navy: #172554;
+            --muted: #64748b;
+            --line: #e2e8f0;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f1f5fb;
+            color: var(--navy);
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .navbar {
+            padding: 17px 6%;
+            background: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .brand {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--navy);
+        }
+
+        .brand span {
+            color: var(--blue);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 22px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: #475569;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .nav-links a:hover {
+            color: var(--blue);
+        }
+
+        .container {
+            width: min(1150px, 90%);
+            margin: 35px auto;
+        }
+
+        .hero {
+            padding: 34px;
+            border-radius: 24px;
+            color: white;
+            background: linear-gradient(
+                120deg,
+                #1749c5,
+                #3675f5 65%,
+                #6558df
+            );
+            box-shadow: 0 14px 35px #2563eb24;
+            margin-bottom: 30px;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            padding: 6px 11px;
+            border: 1px solid #ffffff55;
+            background: #ffffff18;
+            border-radius: 30px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.2px;
+            margin-bottom: 13px;
+        }
+
+        .hero h1 {
+            font-size: clamp(27px, 4vw, 38px);
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            color: #e5edff;
+            line-height: 1.7;
+            max-width: 650px;
+        }
+
+        .search-wrap {
+            margin-top: 23px;
+            max-width: 460px;
+        }
+
+        .search-wrap input {
+            width: 100%;
+            padding: 14px 17px;
+            border: 1px solid #ffffff70;
+            border-radius: 12px;
+            outline: none;
+            font-size: 14px;
+            background: white;
+            color: #172554;
+        }
+
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            gap: 15px;
+            margin: 30px 0 18px;
+        }
+
+        .section-heading h2 {
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+
+        .section-heading p {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .course-count {
+            background: #dbeafe;
+            color: #1d4ed8;
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(260px, 1fr)
+            );
+            gap: 22px;
+        }
+
+        .course-card {
+            --accent: #2563eb;
+            --tint: #dbeafe;
+            background: white;
+            padding: 23px;
+            border: 1px solid #e7edf6;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px #17255408;
+            transition: transform .25s, box-shadow .25s;
+            min-width: 0;
+        }
+
+        .course-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 17px 36px #17255416;
+        }
+
+        .course-card:nth-child(3n + 2) {
+            --accent: #059669;
+            --tint: #d1fae5;
+        }
+
+        .course-card:nth-child(3n) {
+            --accent: #7c3aed;
+            --tint: #ede9fe;
+        }
+
+        .course-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .course-icon {
+            display: grid;
+            place-items: center;
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: var(--tint);
+            color: var(--accent);
+            font-size: 27px;
+        }
+
+        .course-tag {
+            padding: 6px 9px;
+            background: var(--tint);
+            color: var(--accent);
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .course-card h3 {
+            font-size: 19px;
+            line-height: 1.4;
+            margin-bottom: 10px;
+        }
+
+        .description {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.75;
+            min-height: 68px;
+        }
+
+        .course-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid #edf1f7;
+        }
+
+        .duration {
+            font-size: 12px;
+            color: #475569;
+            font-weight: 600;
+        }
+
+        .course-status {
+            color: var(--accent);
+            background: var(--tint);
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .empty-state {
+            display: none;
+            padding: 30px;
+            text-align: center;
+            background: white;
+            border-radius: 16px;
+            color: var(--muted);
+        }
+
+        .back-link {
+            display: inline-flex;
+            margin-top: 30px;
+            color: var(--blue);
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .footer {
+            padding: 25px 15px;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 12px;
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .nav-links {
+                gap: 15px;
+            }
+
+            .container {
+                width: 92%;
+                margin-top: 22px;
+            }
+
+            .hero {
+                padding: 25px 21px;
+                border-radius: 18px;
+            }
+
+            .section-heading h2 {
+                font-size: 19px;
+            }
+
+            .course-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="navbar">
+        <a class="brand" href="{{ url_for('dashboard') }}">
+            🎓 Smart<span>Campus</span>
+        </a>
+
+        <nav class="nav-links">
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('profile') }}">My Profile</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <span class="eyebrow">YOUR DIGITAL CAMPUS</span>
+            <h1>My Learning Journey 🚀</h1>
+            <p>
+                Explore your courses, develop new skills, and keep moving
+                forward on your learning journey.
+            </p>
+
+            <div class="search-wrap">
+                <input
+                    id="courseSearch"
+                    type="search"
+                    placeholder="🔎  Search your courses..."
+                    aria-label="Search courses"
+                >
+            </div>
+        </section>
+
+        <section>
+            <div class="section-heading">
+                <div>
+                    <h2>Explore Your Courses</h2>
+                    <p>Learning resources available in your portal.</p>
+                </div>
+
+                <span class="course-count">
+                    {{ courses|length }} Courses
+                </span>
+            </div>
+
+            <div class="course-grid" id="courseGrid">
+                {% for course in courses %}
+                <article class="course-card">
+                    <div class="course-top">
+                        <div class="course-icon">
+                            {% if 'Python' in course.name %}
+                                🐍
+                            {% elif 'Cloud' in course.name %}
+                                ☁️
+                            {% else %}
+                                💻
+                            {% endif %}
+                        </div>
+
+                        <span class="course-tag">
+                            {% if 'Python' in course.name %}
+                                PROGRAMMING
+                            {% elif 'Cloud' in course.name %}
+                                CLOUD
+                            {% else %}
+                                DEVELOPMENT
+                            {% endif %}
+                        </span>
+                    </div>
+
+                    <h3>{{ course.name }}</h3>
+                    <p class="description">{{ course.description }}</p>
+
+                    <div class="course-meta">
+                        <span class="duration">
+                            🕒 {{ course.duration }}
+                        </span>
+                        <span class="course-status">Available</span>
+                    </div>
+                                        <form method="POST"
+                          action="{{ url_for('enroll', course_name=course.name) }}"
+                          style="margin-top: 20px;">
+
+                        <button type="submit"
+                                style="width: 100%;
+                                       padding: 12px;
+                                       background: #2563eb;
+                                       color: white;
+                                       border: none;
+                                       border-radius: 10px;
+                                       font-weight: bold;
+                                       cursor: pointer;">
+                            Enroll Now
+                        </button>
+
+                    </form>
+                </article>
+                {% endfor %}
+            </div>
+
+            <div class="empty-state" id="emptyState">
+                No courses match your search. Try another keyword.
+            </div>
+        </section>
+
+        <a class="back-link" href="{{ url_for('dashboard') }}">
+            ← Back to Dashboard
+        </a>
+    </main>
+
+    <footer class="footer">
+        © 2026 SmartCampus Cloud · Learn · Connect · Grow
+    </footer>
+
+    <script>
+        const searchInput = document.getElementById("courseSearch");
+        const cards = Array.from(
+            document.querySelectorAll(".course-card")
+        );
+        const emptyState = document.getElementById("emptyState");
+
+        searchInput.addEventListener("input", function () {
+            const query = this.value.trim().toLowerCase();
+            let visibleCount = 0;
+
+            cards.forEach(function (card) {
+                const matches = card.textContent
+                    .toLowerCase()
+                    .includes(query);
+
+                card.style.display = matches ? "" : "none";
+
+                if (matches) visibleCount++;
+            });
+
+            emptyState.style.display =
+                visibleCount === 0 ? "block" : "none";
+        });
+    </script>
+</body>
+</html>

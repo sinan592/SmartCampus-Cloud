@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Students | SmartCampus</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f1f5fb;
+            color: #172554;
+        }
+
+        header {
+            background: #172554;
+            color: white;
+            padding: 20px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1150px;
+            margin: 35px auto;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #64748b;
+            margin-bottom: 25px;
+        }
+
+        .search {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #cbd5e1;
+            border-radius: 9px;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+
+        .table-box {
+            background: white;
+            padding: 20px;
+            border-radius: 14px;
+            overflow-x: auto;
+            box-shadow: 0 5px 20px #17255408;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background: #eff6ff;
+            color: #1d4ed8;
+            font-size: 13px;
+        }
+
+        td {
+            font-size: 13px;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .view-btn, .delete-btn {
+            display: inline-block;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 7px;
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .view-btn {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .delete-btn {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .flash {
+            padding: 13px 16px;
+            border-radius: 8px;
+            background: #e0f2fe;
+            color: #075985;
+            margin-bottom: 18px;
+            font-size: 14px;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 30px;
+            color: #94a3b8;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 25px;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .details-row {
+            display: none;
+            background: #f8fafc;
+        }
+
+        .details-content {
+            padding: 18px;
+            line-height: 2;
+            color: #475569;
+        }
+
+        @media(max-width: 600px) {
+            .container {
+                width: 94%;
+            }
+
+            .table-box {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h2>🎓 SmartCampus Admin</h2>
+    <a href="{{ url_for('admin_dashboard') }}">← Admin Dashboard</a>
+</header>
+
+<main class="container">
+
+    <h1>👨‍🎓 Manage Students</h1>
+    <p class="subtitle">
+        View, search and manage registered student accounts.
+    </p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div class="flash">{{ message }}</div>
+        {% endfor %}
+    {% endwith %}
+
+    <input
+        type="text"
+        id="searchInput"
+        class="search"
+        placeholder="Search by name, email, department or roll number..."
+        onkeyup="searchStudents()"
+    >
+
+    <section class="table-box">
+
+        <table id="studentsTable">
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Department</th>
+                    <th>Roll Number</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for student in students %}
+
+                <tr>
+                    <td>{{ student.id }}</td>
+                    <td>{{ student.name }}</td>
+                    <td>{{ student.email }}</td>
+                    <td>{{ student.department or '-' }}</td>
+                    <td>{{ student.roll_number or '-' }}</td>
+
+                    <td>
+                        <div class="actions">
+
+                            <button type="button"
+                                    class="view-btn"
+                                    onclick="toggleDetails({{ student.id }})">
+                                View Details
+                            </button>
+
+                            <form method="POST"
+                                  action="{{ url_for('delete_student', student_id=student.id) }}">
+
+                                <button type="submit" class="delete-btn">
+                                    Delete
+                                </button>
+
+                            </form>
+
+                        </div>
+                    </td>
+                </tr>
+
+                <tr id="details-{{ student.id }}" class="details-row">
+                    <td colspan="6">
+                        <div class="details-content">
+                            <strong>Student Details</strong><br>
+                            Student ID: {{ student.id }}<br>
+                            Full Name: {{ student.name }}<br>
+                            Email: {{ student.email }}<br>
+                            Phone: {{ student.phone or 'Not provided' }}<br>
+                            Department: {{ student.department or 'Not provided' }}<br>
+                            Roll Number: {{ student.roll_number or 'Not provided' }}<br>
+                            Account Role: {{ student.role }}
+                        </div>
+                    </td>
+                </tr>
+
+                {% else %}
+
+                <tr>
+                    <td colspan="6" class="empty">
+                        No students found.
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+    <a class="back" href="{{ url_for('admin_dashboard') }}">
+        ← Back to Admin Dashboard
+    </a>
+
+</main>
+
+<script>
+function searchStudents() {
+    const input = document.getElementById("searchInput");
+    const filter = input.value.toLowerCase();
+    const rows = document.querySelectorAll("#studentsTable tbody tr");
+
+    rows.forEach(row => {
+        if (row.classList.contains("details-row")) {
+            return;
+        }
+
+        const text = row.innerText.toLowerCase();
+        const visible = text.includes(filter);
+
+        row.style.display = visible ? "" : "none";
+
+        const detailsId = row.querySelector(".view-btn")
+            ?.getAttribute("onclick")
+            ?.match(/\d+/)?.[0];
+
+        if (detailsId && !visible) {
+            document.getElementById("details-" + detailsId).style.display = "none";
+        }
+    });
+}
+
+function toggleDetails(studentId) {
+    const row = document.getElementById("details-" + studentId);
+
+    row.style.display =
+        row.style.display === "table-row" ? "none" : "table-row";
+}
+</script>
+
+</body>
+</html>

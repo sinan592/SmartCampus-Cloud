@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Course | SmartCampus</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #172554;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 50px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px #00000010;
+        }
+
+        h1 {
+            color: #1d4ed8;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin: 18px 0 8px;
+            font-weight: bold;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 14px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .back {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            color: #2563eb;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>📚 Add New Course</h1>
+
+    <form method="POST">
+
+        <label>Course Name</label>
+        <input
+            type="text"
+            name="name"
+            placeholder="Enter course name"
+            required
+        >
+
+        <label>Course Description</label>
+        <textarea
+            name="description"
+            placeholder="Enter course description"
+            required
+        ></textarea>
+
+        <label>Course Duration</label>
+        <input
+            type="text"
+            name="duration"
+            placeholder="Example: 8 Weeks"
+            required
+        >
+
+        <button type="submit">Add Course</button>
+
+    </form>
+
+    <a class="back" href="{{ url_for('admin_courses') }}">
+        ← Back to Manage Courses
+    </a>
+
+</div>
+
+</body>
+</html>

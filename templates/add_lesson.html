@@ -1,0 +1,329 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Add Lesson | SmartCampus</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f3f6ff;
+            color: #172554;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: white;
+            padding: 18px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e5eaf5;
+        }
+
+        .logo {
+            font-size: 21px;
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: #2563eb;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 750px;
+            width: 92%;
+            margin: 45px auto;
+        }
+
+        .heading {
+            margin-bottom: 25px;
+        }
+
+        .heading h1 {
+            font-size: 27px;
+            margin-bottom: 8px;
+        }
+
+        .heading p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .form-card {
+            background: white;
+            padding: 32px;
+            border-radius: 16px;
+            border: 1px solid #e5eaf5;
+            box-shadow: 0 8px 25px #1e40af0b;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 9px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #dbe3f0;
+            border-radius: 9px;
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+            background: #fff;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px #2563eb15;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .hint {
+            display: block;
+            color: #94a3b8;
+            font-size: 12px;
+            margin-top: 7px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 28px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            border: none;
+            padding: 13px 22px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .primary {
+            background: #2563eb;
+            color: white;
+            flex: 1;
+        }
+
+        .primary:hover {
+            background: #1d4ed8;
+        }
+
+        .secondary {
+            background: #f1f5f9;
+            color: #475569;
+        }
+
+        .secondary:hover {
+            background: #e2e8f0;
+        }
+
+        .flash {
+            padding: 12px;
+            margin-bottom: 18px;
+            border-radius: 8px;
+            background: #fff1f2;
+            color: #be123c;
+            font-size: 14px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #94a3b8;
+            font-size: 12px;
+        }
+
+        @media(max-width: 600px) {
+            .form-card {
+                padding: 22px;
+            }
+
+            .heading h1 {
+                font-size: 23px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <div class="logo">🎓 SmartCampus</div>
+
+    <a href="{{ url_for('admin_lessons') }}">
+        ← Back to Lessons
+    </a>
+
+</header>
+
+
+<main class="container">
+
+    <div class="heading">
+        <h1>➕ Add New Lesson</h1>
+        <p>Create a lesson and connect it to an existing course.</p>
+    </div>
+
+
+    <div class="form-card">
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="flash">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endwith %}
+
+
+        <form method="POST"
+              action="{{ url_for('add_lesson') }}">
+
+            <div class="form-group">
+
+                <label for="course_id">Select Course *</label>
+
+                <select id="course_id"
+                        name="course_id"
+                        required>
+
+                    <option value="">-- Select a Course --</option>
+
+                    {% for course in courses %}
+
+                    <option value="{{ course.id }}">
+                        {{ course.name }}
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="title">Lesson Title *</label>
+
+                <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    placeholder="Example: Introduction to Python"
+                    maxlength="200"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="description">Lesson Description</label>
+
+                <textarea
+                    id="description"
+                    name="description"
+                    placeholder="Enter lesson details..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="video_url">YouTube Video URL</label>
+
+                <input
+                    type="url"
+                    id="video_url"
+                    name="video_url"
+                    placeholder="https://www.youtube.com/watch?v=..."
+                    maxlength="500"
+                >
+
+                <span class="hint">
+                    Add a YouTube lesson link. This field is optional.
+                </span>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="lesson_order">Lesson Order *</label>
+
+                <input
+                    type="number"
+                    id="lesson_order"
+                    name="lesson_order"
+                    value="1"
+                    min="1"
+                    required
+                >
+
+                <span class="hint">
+                    Example: 1 for the first lesson, 2 for the second lesson.
+                </span>
+
+            </div>
+
+
+            <div class="buttons">
+
+                <button type="submit" class="btn primary">
+                    Save Lesson
+                </button>
+
+                <a href="{{ url_for('admin_lessons') }}"
+                   class="btn secondary">
+                    Cancel
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</main>
+
+
+<footer>
+    © 2026 SmartCampus Cloud | Admin Portal
+</footer>
+
+</body>
+</html>

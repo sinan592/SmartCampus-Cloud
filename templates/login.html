@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f2f6ff">
+    <title>Sign In | SmartCampus Cloud</title>
+
+    <style>
+        :root {
+            --blue: #246bfd;
+            --blue-dark: #174fc5;
+            --navy: #142747;
+            --muted: #71809b;
+            --border: #dce5f4;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            padding: 30px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: var(--navy);
+            background:
+                radial-gradient(circle at 10% 20%, #dceaff, transparent 30%),
+                radial-gradient(circle at 90% 85%, #e4e7ff, transparent 32%),
+                #f4f7ff;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .login-card {
+            width: min(1050px, 100%);
+            display: grid;
+            grid-template-columns: 0.95fr 1.05fr;
+            overflow: hidden;
+            border-radius: 25px;
+            background: white;
+            box-shadow: 0 24px 70px rgba(28, 55, 103, 0.14);
+        }
+
+        /* Left panel */
+
+        .welcome-panel {
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            padding: 36px 35px 25px;
+            color: white;
+            background: linear-gradient(
+                150deg, #123d83, #1769dc 65%, #554fda
+            );
+        }
+
+        .welcome-panel::before {
+            content: "";
+            position: absolute;
+            width: 270px;
+            height: 270px;
+            top: 90px;
+            right: -100px;
+            border: 1px solid #ffffff25;
+            border-radius: 50%;
+        }
+
+        .brand {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 23px;
+            font-weight: 800;
+        }
+
+        .brand-icon {
+            font-size: 30px;
+        }
+
+        .brand .brand-highlight {
+            color: #a9ccff;
+        }
+
+        .tagline {
+            margin-top: 38px;
+            margin-bottom: 13px;
+            color: #d8e7ff;
+            font-size: 11px;
+            letter-spacing: 3px;
+            font-weight: 700;
+        }
+
+        .welcome-panel h1 {
+            margin-bottom: 15px;
+            font-size: clamp(36px, 4vw, 47px);
+            line-height: 1.13;
+        }
+
+        .welcome-panel h1 span {
+            color: #a8d3ff;
+        }
+
+        .welcome-text {
+            max-width: 350px;
+            color: #e3edff;
+            font-size: 14px;
+            line-height: 1.85;
+        }
+
+        .campus-art {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            margin-top: auto;
+            padding-top: 15px;
+        }
+
+        .campus-art svg {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-height: 225px;
+        }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 14px;
+            padding: 17px 12px;
+            border: 1px solid #ffffff20;
+            border-radius: 15px;
+            background: #ffffff12;
+        }
+
+        .feature {
+            min-width: 0;
+            padding: 0 5px;
+        }
+
+        .feature-icon {
+            display: grid;
+            place-items: center;
+            width: 37px;
+            height: 37px;
+            margin-bottom: 9px;
+            border-radius: 10px;
+            background: #ffffff20;
+            font-size: 19px;
+        }
+
+        .feature strong {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 12px;
+        }
+
+        .feature p {
+            color: #d6e5ff;
+            font-size: 10px;
+            line-height: 1.6;
+        }
+
+        /* Login form */
+
+        .form-panel {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 45px 48px;
+            background: white;
+        }
+
+        .form-content {
+            width: 100%;
+            max-width: 390px;
+        }
+
+        .form-logo {
+            display: grid;
+            place-items: center;
+            width: 53px;
+            height: 53px;
+            margin-bottom: 21px;
+            border-radius: 15px;
+            background: #edf3ff;
+            font-size: 28px;
+        }
+
+        .form-content h2 {
+            margin-bottom: 5px;
+            font-size: 35px;
+            letter-spacing: -1px;
+        }
+
+        .form-subtitle {
+            margin-bottom: 26px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .flash-messages {
+            margin-bottom: 18px;
+        }
+
+        .flash-message {
+            padding: 11px 13px;
+            border: 1px solid #f5d6d6;
+            border-radius: 9px;
+            color: #a32c35;
+            background: #fff4f4;
+            font-size: 13px;
+            overflow-wrap: anywhere;
+        }
+
+        .form-group {
+            margin-bottom: 19px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .input-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-height: 49px;
+            padding: 0 13px;
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            background: white;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .input-wrap:focus-within {
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px #246bfd17;
+        }
+
+        .input-icon {
+            flex-shrink: 0;
+            color: #54729d;
+            font-size: 17px;
+        }
+
+        .input-wrap input {
+            width: 100%;
+            min-width: 0;
+            height: 47px;
+            border: none;
+            outline: none;
+            color: var(--navy);
+            background: transparent;
+            font-family: inherit;
+            font-size: 13px;
+        }
+
+        .input-wrap input::placeholder {
+            color: #98a5b8;
+        }
+
+        .password-toggle {
+            flex-shrink: 0;
+            padding: 5px;
+            border: none;
+            color: #59708f;
+            background: transparent;
+            cursor: pointer;
+            font-size: 17px;
+        }
+
+        .password-toggle:focus-visible {
+            outline: 2px solid var(--blue);
+            border-radius: 5px;
+        }
+
+        .form-options {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 1px 0 22px;
+            font-size: 12px;
+        }
+
+        .remember {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: var(--muted);
+        }
+
+        .remember input {
+            width: 15px;
+            height: 15px;
+            accent-color: var(--blue);
+        }
+
+        .submit-button {
+            width: 100%;
+            min-height: 49px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            border: none;
+            border-radius: 11px;
+            color: white;
+            background: linear-gradient(100deg, #246bfd, #477cf5);
+            box-shadow: 0 8px 20px #246bfd30;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 11px 24px #246bfd40;
+        }
+
+        .register-prompt {
+            margin-top: 25px;
+            color: var(--muted);
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .register-link,
+        .back-link {
+            color: var(--blue);
+            font-weight: 700;
+        }
+
+        .back-link {
+            display: block;
+            width: fit-content;
+            margin: 21px auto 0;
+            font-size: 12px;
+        }
+
+        /* Responsive */
+
+        @media (max-width: 800px) {
+            body {
+                padding: 20px;
+            }
+
+            .login-card {
+                max-width: 540px;
+                grid-template-columns: 1fr;
+            }
+
+            .welcome-panel {
+                padding: 28px;
+            }
+
+            .tagline {
+                margin-top: 25px;
+            }
+
+            .welcome-panel h1 {
+                font-size: 38px;
+            }
+
+            .campus-art svg {
+                max-height: 190px;
+            }
+
+            .form-panel {
+                padding: 35px 28px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            body {
+                padding: 12px;
+            }
+
+            .login-card {
+                border-radius: 18px;
+            }
+
+            .welcome-panel {
+                padding: 24px 20px;
+            }
+
+            .brand {
+                font-size: 21px;
+            }
+
+            .welcome-panel h1 {
+                font-size: 34px;
+            }
+
+            .feature-list {
+                gap: 5px;
+                padding: 13px 6px;
+            }
+
+            .feature {
+                padding: 0 4px;
+            }
+
+            .feature strong {
+                font-size: 11px;
+            }
+
+            .feature p {
+                font-size: 9px;
+            }
+
+            .form-panel {
+                padding: 30px 20px;
+            }
+
+            .form-content h2 {
+                font-size: 31px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="login-card">
+
+        <!-- Welcome panel -->
+        <section class="welcome-panel">
+
+            <a class="brand" href="{{ url_for('home') }}">
+                <span class="brand-icon" aria-hidden="true">🎓</span>
+                <span>Smart<span class="brand-highlight">Campus</span></span>
+            </a>
+
+            <p class="tagline">LEARN · CONNECT · GROW</p>
+
+            <h1>Welcome<br><span>Back!</span></h1>
+
+            <p class="welcome-text">
+                Sign in to your SmartCampus Cloud account and continue
+                your campus journey.
+            </p>
+
+            <!-- Campus illustration -->
+            <div class="campus-art">
+                <svg viewBox="0 0 440 220"
+                     role="img"
+                     aria-label="Illustrated university campus"
+                     xmlns="http://www.w3.org/2000/svg">
+
+                    <circle cx="220" cy="105" r="105"
+                            fill="#ffffff" opacity=".07"/>
+
+                    <path d="M20 40 Q30 20 47 36 Q63 15 79 39 L90 42 H20 Z"
+                          fill="#ffffff" opacity=".8"/>
+
+                    <path d="M325 29 Q338 8 355 28 Q372 11 390 33 H325 Z"
+                          fill="#ffffff" opacity=".7"/>
+
+                    <!-- Trees -->
+                    <g>
+                        <rect x="28" y="119" width="9" height="68"
+                              rx="3" fill="#c69a70"/>
+                        <circle cx="32" cy="106" r="27" fill="#3cae83"/>
+                        <circle cx="17" cy="117" r="18" fill="#50c294"/>
+                        <circle cx="46" cy="119" r="17" fill="#2e9c72"/>
+
+                        <rect x="395" y="115" width="9" height="73"
+                              rx="3" fill="#c69a70"/>
+                        <circle cx="400" cy="101" r="28" fill="#3cae83"/>
+                        <circle cx="383" cy="115" r="18" fill="#50c294"/>
+                        <circle cx="413" cy="115" r="18" fill="#2e9c72"/>
+                    </g>
+
+                    <!-- University building -->
+                    <path d="M87 89 L220 22 L353 89 Z"
+                          fill="#ffffff" stroke="#9bc7ff" stroke-width="3"/>
+
+                    <path d="M111 86 L220 34 L329 86 Z"
+                          fill="#83b8ff"/>
+
+                    <rect x="104" y="87" width="232" height="101"
+                          rx="3" fill="#f7fbff"/>
+
+                    <rect x="114" y="96" width="212" height="83"
+                          fill="#d9eaff"/>
+
+                    <g fill="#ffffff">
+                        <rect x="130" y="103" width="12" height="74"/>
+                        <rect x="169" y="103" width="12" height="74"/>
+                        <rect x="259" y="103" width="12" height="74"/>
+                        <rect x="298" y="103" width="12" height="74"/>
+                    </g>
+
+                    <g fill="#66a8f7">
+                        <rect x="146" y="111" width="17" height="25" rx="2"/>
+                        <rect x="185" y="111" width="17" height="25" rx="2"/>
+                        <rect x="238" y="111" width="17" height="25" rx="2"/>
+                        <rect x="277" y="111" width="17" height="25" rx="2"/>
+                    </g>
+
+                    <rect x="203" y="139" width="34" height="49"
+                          rx="3" fill="#4388e8"/>
+                    <rect x="210" y="147" width="20" height="41"
+                          fill="#c6e0ff"/>
+
+                    <path d="M0 187 Q220 170 440 187 L440 220 H0 Z"
+                          fill="#6bc99d"/>
+
+                    <path d="M199 188 H241 L269 220 H171 Z"
+                          fill="#e9f3ff"/>
+
+                    <!-- Student on left -->
+                    <g transform="translate(92 148)">
+                        <circle cx="0" cy="0" r="10" fill="#eab38f"/>
+                        <path d="M-10 -3 Q-9 -16 3 -12 L10 -5 L7 0 L-5 -5 Z"
+                              fill="#233d68"/>
+                        <path d="M-12 13 Q0 6 12 13 L15 39 H-15 Z"
+                              fill="#2d79e8"/>
+                        <path d="M-8 38 L-9 61 H0 L3 38 Z"
+                              fill="#263c5b"/>
+                        <path d="M5 38 L9 61 H18 L13 38 Z"
+                              fill="#263c5b"/>
+                    </g>
+
+                    <!-- Student on right -->
+                    <g transform="translate(350 151)">
+                        <circle cx="0" cy="0" r="10" fill="#efbd98"/>
+                        <path d="M-11 -1 Q-12 -16 2 -14 Q12 -12 11 2
+                                 L6 -5 L-5 -5 Z"
+                              fill="#26344e"/>
+                        <path d="M-12 13 Q0 6 12 13 L15 39 H-15 Z"
+                              fill="#f4a65b"/>
+                        <path d="M-8 38 L-10 61 H0 L3 38 Z"
+                              fill="#263c5b"/>
+                        <path d="M5 38 L9 61 H18 L13 38 Z"
+                              fill="#263c5b"/>
+                    </g>
+                </svg>
+            </div>
+
+            <div class="feature-list">
+                <div class="feature">
+                    <div class="feature-icon">📚</div>
+                    <strong>Academic Services</strong>
+                    <p>Access student information and services.</p>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-icon">📅</div>
+                    <strong>Campus Activities</strong>
+                    <p>Stay updated with events and notices.</p>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-icon">☁️</div>
+                    <strong>Cloud Portal</strong>
+                    <p>Your campus resources in one place.</p>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Login form -->
+        <section class="form-panel">
+            <div class="form-content">
+
+                <div class="form-logo" aria-hidden="true">🎓</div>
+
+                <h2>Sign In</h2>
+
+                <p class="form-subtitle">
+                    <p class="form-subtitle">
+    Welcome back! Enter your details to continue.
+</p>
+                </p>
+
+                <!-- Flask flash messages -->
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <div class="flash-messages" role="alert">
+                            {% for message in messages %}
+                                <p class="flash-message">{{ message }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
+                <form method="POST" action="{{ url_for('login') }}">
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+
+                        <div class="input-wrap">
+                            <span class="input-icon" aria-hidden="true">✉</span>
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="Enter your email address"
+                                autocomplete="email"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+
+                        <div class="input-wrap">
+                            <span class="input-icon" aria-hidden="true">🔒</span>
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Minimum 8 characters"
+                                autocomplete="current-password"
+                                minlength="8"
+                                required
+                            >
+
+                            <button
+                                class="password-toggle"
+                                type="button"
+                                id="togglePassword"
+                                aria-label="Show password"
+                                aria-pressed="false"
+                            >◎</button>
+                        </div>
+                    </div>
+
+                    <div class="form-options">
+                        <label class="remember">
+                            <input type="checkbox" name="remember">
+                            <span>Remember me</span>
+                        </label>
+                    </div>
+
+                    <button class="submit-button" type="submit">
+                        Sign In <span aria-hidden="true">→</span>
+                    </button>
+
+                </form>
+
+                <p class="register-prompt">
+                    Don't have an account?
+                    <a class="register-link"
+                       href="{{ url_for('register') }}">
+                        Create an account
+                    </a>
+                </p>
+
+                <a class="back-link" href="{{ url_for('home') }}">
+                    ← Back to Home
+                </a>
+
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        const passwordInput = document.getElementById("password");
+        const toggleButton = document.getElementById("togglePassword");
+
+        toggleButton.addEventListener("click", function () {
+            const isHidden = passwordInput.type === "password";
+
+            passwordInput.type = isHidden ? "text" : "password";
+            toggleButton.setAttribute("aria-pressed", String(isHidden));
+            toggleButton.setAttribute(
+                "aria-label",
+                isHidden ? "Hide password" : "Show password"
+            );
+            toggleButton.textContent = isHidden ? "◉" : "◎";
+        });
+    </script>
+
+</body>
+</html>

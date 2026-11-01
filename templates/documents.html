@@ -1,0 +1,144 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documents | SmartCampus Cloud</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 40px 20px;
+            font-family: Arial, sans-serif;
+            background: #f3f6fc;
+            color: #172a4d;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .header {
+            padding: 35px;
+            border-radius: 18px;
+            color: white;
+            background: linear-gradient(120deg, #174fc5, #6554e8);
+        }
+
+        .header h1 {
+            margin-top: 0;
+        }
+
+        .document {
+            margin-top: 18px;
+            padding: 22px;
+            border-radius: 12px;
+            background: white;
+            box-shadow: 0 4px 15px #0000000a;
+        }
+
+        .document p {
+            color: #536582;
+            line-height: 1.6;
+        }
+
+        .download {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 16px;
+            background: #2563eb;
+            color: white;
+            border-radius: 7px;
+            text-decoration: none;
+        }
+
+        .download:hover {
+            background: #174fc5;
+        }
+
+        .empty {
+            margin-top: 20px;
+            padding: 25px;
+            background: white;
+            border-radius: 12px;
+            text-align: center;
+            color: #64748b;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 25px;
+            color: #2868f5;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 20px 12px;
+            }
+
+            .header {
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<main class="container">
+
+    <header class="header">
+        <h1>📚 Student Documents</h1>
+        <p>
+            Access your study notes, assignments,
+            and learning resources.
+        </p>
+    </header>
+
+    {% for document in documents %}
+
+        <section class="document">
+
+            <h3>📄 {{ document.title }}</h3>
+
+            <p>
+                {{ document.description or "Study material uploaded by Admin." }}
+            </p>
+
+            <p>
+                <strong>Uploaded:</strong>
+                {{ document.uploaded_at.strftime('%d-%m-%Y') }}
+            </p>
+
+            <a class="download"
+               href="{{ url_for('download_document', document_id=document.id) }}">
+                ⬇ Download Document
+            </a>
+
+        </section>
+
+    {% else %}
+
+        <div class="empty">
+            <h3>No Documents Available</h3>
+            <p>Admin has not uploaded any documents yet.</p>
+        </div>
+
+    {% endfor %}
+
+    <a class="back" href="{{ url_for('dashboard') }}">
+        ← Back to Dashboard
+    </a>
+
+</main>
+
+</body>
+</html>

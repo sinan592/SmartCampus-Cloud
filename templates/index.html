@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#ffffff">
+
+    <title>SmartCampus Cloud | Your Digital Campus</title>
+    <meta name="description"
+          content="SmartCampus Cloud brings campus information and student services together in one place.">
+
+    <style>
+        :root {
+            --primary: #1769f5;
+            --primary-dark: #1052ca;
+            --navy: #12274b;
+            --text: #526583;
+            --muted: #7888a2;
+            --line: #e5ecf7;
+            --background: #f5f8ff;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 90px;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: var(--navy);
+            background: var(--white);
+            line-height: 1.6;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .container {
+            width: min(1160px, 90%);
+            margin: 0 auto;
+        }
+
+        /* Navigation */
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.97);
+            border-bottom: 1px solid #edf1f8;
+        }
+
+        .navbar {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            white-space: nowrap;
+            font-size: 23px;
+            font-weight: 800;
+            letter-spacing: -0.8px;
+        }
+
+        .brand-icon {
+            font-size: 29px;
+        }
+
+        .brand-name span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 27px;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links .nav-button {
+            padding: 11px 19px;
+            border-radius: 9px;
+            color: white;
+            background: var(--primary);
+            box-shadow: 0 5px 14px #1769f525;
+        }
+
+        .nav-links .nav-button:hover {
+            color: white;
+            background: var(--primary-dark);
+        }
+
+        /* Hero */
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            padding: 65px 0 58px;
+            background:
+                radial-gradient(
+                    circle at 85% 15%,
+                    #d8e8ff 0,
+                    transparent 34%
+                ),
+                linear-gradient(115deg, #f8faff, #edf4ff);
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 0.9fr 1.1fr;
+            align-items: center;
+            gap: 45px;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            margin-bottom: 18px;
+            padding: 7px 13px;
+            border-radius: 30px;
+            color: #1d5bc7;
+            background: #e1ecff;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.4px;
+        }
+
+        .hero h1 {
+            margin-bottom: 20px;
+            color: var(--navy);
+            font-size: clamp(43px, 5vw, 64px);
+            line-height: 1.08;
+            letter-spacing: -2px;
+        }
+
+        .hero h1 span {
+            color: var(--primary);
+        }
+
+        .hero-description {
+            max-width: 480px;
+            margin-bottom: 26px;
+            color: var(--text);
+            font-size: 16px;
+            line-height: 1.85;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 13px;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            min-height: 48px;
+            padding: 12px 21px;
+            border: 1px solid transparent;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            transition: transform 0.2s, background 0.2s,
+                        box-shadow 0.2s;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+        }
+
+        .button-primary {
+            color: white;
+            background: var(--primary);
+            box-shadow: 0 7px 18px #1769f52b;
+        }
+
+        .button-primary:hover {
+            background: var(--primary-dark);
+            box-shadow: 0 9px 23px #1769f536;
+        }
+
+        .button-secondary {
+            color: var(--primary);
+            background: white;
+            border-color: #d8e5fb;
+        }
+
+        .button-secondary:hover {
+            border-color: var(--primary);
+        }
+
+        .benefits {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 17px;
+            margin-top: 24px;
+            color: var(--text);
+            font-size: 12px;
+        }
+
+        .benefits span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .check {
+            display: inline-grid;
+            place-items: center;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            color: white;
+            background: var(--primary);
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        /* Illustration panel */
+
+        .illustration {
+            position: relative;
+            min-height: 365px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 1px solid #e1ebff;
+            border-radius: 24px;
+            background: linear-gradient(145deg, #d9eaff, #f3f7ff);
+        }
+
+        .illustration::before,
+        .illustration::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            background: #b9d5ff;
+            opacity: 0.48;
+        }
+
+        .illustration::before {
+            width: 240px;
+            height: 240px;
+            top: -85px;
+            right: -35px;
+        }
+
+        .illustration::after {
+            width: 180px;
+            height: 180px;
+            bottom: -75px;
+            left: -55px;
+        }
+
+        .scene {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 510px;
+            padding: 22px 20px 25px;
+            text-align: center;
+        }
+
+        .scene-label {
+            display: inline-block;
+            margin-bottom: 14px;
+            padding: 7px 14px;
+            border: 1px solid #ffffff;
+            border-radius: 20px;
+            color: #2858a4;
+            background: rgba(255, 255, 255, 0.76);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.1px;
+        }
+
+        .campus-svg {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-height: 255px;
+            margin: 0 auto;
+        }
+
+        .scene-caption {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 9px;
+            margin-top: 7px;
+        }
+
+        .scene-caption span {
+            padding: 7px 12px;
+            border: 1px solid #e0eaff;
+            border-radius: 8px;
+            color: #37557e;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Highlights */
+
+        .highlights {
+            padding: 24px 0;
+            border-bottom: 1px solid #edf1f8;
+            background: white;
+        }
+
+        .highlight-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .highlight {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 13px;
+            padding: 8px 15px;
+            border-right: 1px solid var(--line);
+        }
+
+        .highlight:last-child {
+            border-right: none;
+        }
+
+        .highlight-icon {
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            width: 43px;
+            height: 43px;
+            border-radius: 13px;
+            color: var(--primary);
+            background: #e9f1ff;
+            font-size: 21px;
+        }
+
+        .highlight strong {
+            display: block;
+            color: var(--navy);
+            font-size: 16px;
+        }
+
+        .highlight small {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        /* Services */
+
+        .services {
+            padding: 61px 0 67px;
+            background: white;
+        }
+
+        .section-heading {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .section-heading .eyebrow {
+            margin-bottom: 10px;
+        }
+
+        .section-heading h2 {
+            margin-bottom: 8px;
+            color: var(--navy);
+            font-size: clamp(28px, 3vw, 36px);
+            letter-spacing: -0.8px;
+        }
+
+        .section-heading p {
+            max-width: 600px;
+            margin: 0 auto;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 17px;
+        }
+
+        .service-card {
+            padding: 23px 19px;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            background: white;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px #1427470e;
+        }
+
+        .service-icon {
+            display: grid;
+            place-items: center;
+            width: 49px;
+            height: 49px;
+            margin-bottom: 16px;
+            border-radius: 13px;
+            font-size: 23px;
+        }
+
+        .blue {
+            color: #1769f5;
+            background: #e9f1ff;
+        }
+
+        .pink {
+            color: #e54872;
+            background: #fff0f4;
+        }
+
+        .green {
+            color: #079b69;
+            background: #e6f9f0;
+        }
+
+        .purple {
+            color: #7650e8;
+            background: #f0ebff;
+        }
+
+        .service-card h3 {
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .service-card p {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.75;
+        }
+
+        /* About */
+
+        .about {
+            padding: 52px 0;
+            background: var(--background);
+            border-top: 1px solid #eaf0fb;
+        }
+
+        .about-content {
+            max-width: 730px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .about-content h2 {
+            margin-bottom: 13px;
+            font-size: clamp(27px, 3vw, 34px);
+            letter-spacing: -0.6px;
+        }
+
+        .about-content p {
+            margin-bottom: 22px;
+            color: var(--text);
+            font-size: 14px;
+            line-height: 1.9;
+        }
+
+        /* Footer */
+
+        footer {
+            padding: 25px 0;
+            color: #d6e2f5;
+            background: #102747;
+        }
+
+        .footer-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 18px;
+        }
+
+        .footer-brand {
+            color: white;
+            font-size: 19px;
+            font-weight: 800;
+        }
+
+        .footer-brand span {
+            color: #7fb0ff;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 19px;
+            font-size: 12px;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-copy {
+            color: #b9c9e2;
+            font-size: 11px;
+            text-align: right;
+        }
+
+        /* Responsive */
+
+        @media (max-width: 950px) {
+            .navbar {
+                gap: 15px;
+            }
+
+            .nav-links {
+                gap: 15px;
+            }
+
+            .hero-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 25px;
+            }
+
+            .hero h1 {
+                font-size: clamp(40px, 5vw, 54px);
+            }
+
+            .illustration {
+                min-height: 310px;
+            }
+
+            .service-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 700px) {
+            .navbar {
+                padding: 14px 0;
+                flex-direction: column;
+            }
+
+            .nav-links {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 12px 17px;
+            }
+
+            .nav-links a {
+                font-size: 13px;
+            }
+
+            .hero {
+                padding: 43px 0;
+            }
+
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .hero h1 {
+                font-size: clamp(42px, 9vw, 55px);
+            }
+
+            .hero-description {
+                font-size: 15px;
+            }
+
+            .illustration {
+                min-height: 280px;
+            }
+
+            .highlight {
+                flex-direction: column;
+                gap: 5px;
+                text-align: center;
+            }
+
+            .highlight-icon {
+                width: 38px;
+                height: 38px;
+            }
+
+            .highlight strong {
+                font-size: 14px;
+            }
+
+            .highlight small {
+                font-size: 11px;
+            }
+
+            .services {
+                padding: 45px 0;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-copy {
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 430px) {
+            .container {
+                width: 91%;
+            }
+
+            .brand {
+                font-size: 21px;
+            }
+
+            .nav-links {
+                gap: 11px 13px;
+            }
+
+            .nav-links a {
+                font-size: 12px;
+            }
+
+            .nav-links .nav-button {
+                padding: 8px 12px;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .button {
+                width: 100%;
+            }
+
+            .benefits {
+                gap: 10px;
+            }
+
+            .highlight-grid {
+                gap: 0;
+            }
+
+            .highlight {
+                padding: 7px 3px;
+            }
+
+            .highlight strong {
+                font-size: 12px;
+            }
+
+            .highlight small {
+                font-size: 10px;
+            }
+
+            .service-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .service-card {
+                padding: 21px;
+            }
+
+            .footer-links {
+                justify-content: center;
+                gap: 14px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container navbar">
+
+            <a class="brand" href="{{ url_for('home') }}">
+                <span class="brand-icon" aria-hidden="true">🎓</span>
+                <span class="brand-name">
+                    Smart<span>Campus</span>
+                </span>
+            </a>
+
+            <nav class="nav-links" aria-label="Main navigation">
+                <a href="{{ url_for('home') }}">Home</a>
+                <a href="#services">Services</a>
+                <a href="#events">Events</a>
+                <a href="#about">About</a>
+                <a class="nav-button" href="{{ url_for('login') }}">
+                    Sign In →
+                </a>
+            </nav>
+
+        </div>
+    </header>
+
+    <main>
+
+        <!-- Hero -->
+        <section class="hero">
+            <div class="container hero-grid">
+
+                <div class="hero-content">
+                    <span class="eyebrow">
+                        WELCOME TO SMARTCAMPUS CLOUD
+                    </span>
+
+                    <h1>
+                        Your Campus,<br>
+                        <span>Connected.</span>
+                    </h1>
+
+                    <p class="hero-description">
+                        A modern student portal designed to bring campus
+                        information, student services, and important
+                        updates together in one convenient place.
+                    </p>
+
+                    <div class="hero-actions">
+                        <a class="button button-primary"
+                           href="{{ url_for('register') }}">
+                            Create Account <span aria-hidden="true">→</span>
+                        </a>
+
+                        <a class="button button-secondary"
+                           href="{{ url_for('login') }}">
+                            <span aria-hidden="true">↪</span> Sign In
+                        </a>
+                    </div>
+
+                    <div class="benefits">
+                        <span><b class="check">✓</b> Secure Access</span>
+                        <span><b class="check">✓</b> Always Updated</span>
+                        <span><b class="check">✓</b> Student Friendly</span>
+                    </div>
+                </div>
+
+                <!-- Simple campus illustration made with SVG -->
+                <div class="illustration">
+                    <div class="scene">
+
+                        <span class="scene-label">
+                            YOUR DIGITAL CAMPUS
+                        </span>
+
+                        <svg class="campus-svg"
+                             viewBox="0 0 520 290"
+                             role="img"
+                             aria-label="Illustration of a university campus with students and trees"
+                             xmlns="http://www.w3.org/2000/svg">
+
+                            <!-- Sky and clouds -->
+                            <circle cx="90" cy="65" r="32"
+                                    fill="#ffffff" opacity=".55"/>
+                            <circle cx="430" cy="70" r="45"
+                                    fill="#ffffff" opacity=".45"/>
+
+                            <path d="M35 72 Q45 53 64 64 Q76 42 95 62
+                                     Q116 55 124 75 Z"
+                                  fill="#ffffff" opacity=".9"/>
+
+                            <path d="M375 44 Q390 24 410 40 Q427 20 446 43
+                                     Q463 37 472 53 Z"
+                                  fill="#ffffff" opacity=".9"/>
+
+                            <!-- Ground -->
+                            <path d="M20 250 Q250 218 500 250 L500 278
+                                     L20 278 Z"
+                                  fill="#b9e7d0"/>
+
+                            <!-- Trees -->
+                            <g>
+                                <rect x="55" y="155" width="12" height="91"
+                                      rx="4" fill="#91694d"/>
+                                <circle cx="61" cy="132" r="34"
+                                        fill="#51b88b"/>
+                                <circle cx="42" cy="147" r="23"
+                                        fill="#37a879"/>
+                                <circle cx="78" cy="150" r="24"
+                                        fill="#68c89b"/>
+
+                                <rect x="448" y="151" width="12" height="94"
+                                      rx="4" fill="#91694d"/>
+                                <circle cx="454" cy="126" r="36"
+                                        fill="#4db889"/>
+                                <circle cx="432" cy="143" r="24"
+                                        fill="#2fa477"/>
+                                <circle cx="475" cy="145" r="23"
+                                        fill="#65c99b"/>
+                            </g>
+
+                            <!-- University building -->
+                            <path d="M127 112 L260 34 L393 112 Z"
+                                  fill="#ffffff" stroke="#a7c8f6"
+                                  stroke-width="3"/>
+
+                            <path d="M147 110 L260 48 L373 110 Z"
+                                  fill="#78aef8"/>
+
+                            <rect x="142" y="109" width="236" height="128"
+                                  rx="4" fill="#ffffff"
+                                  stroke="#b4cff4" stroke-width="3"/>
+
+                            <rect x="151" y="119" width="218" height="108"
+                                  fill="#eaf3ff"/>
+
+                            <!-- Roof detail -->
+                            <path d="M133 109 L260 39 L387 109"
+                                  fill="none" stroke="#5c95e9"
+                                  stroke-width="5"/>
+
+                            <!-- Clock -->
+                            <circle cx="260" cy="82" r="17"
+                                    fill="#ffffff" stroke="#7ba8ed"
+                                    stroke-width="3"/>
+                            <path d="M260 71 L260 82 L268 86"
+                                  fill="none" stroke="#2868d6"
+                                  stroke-width="3" stroke-linecap="round"/>
+
+                            <!-- Windows -->
+                            <g fill="#7fb8f5" stroke="#ffffff"
+                               stroke-width="3">
+                                <rect x="161" y="135" width="29" height="28"
+                                      rx="2"/>
+                                <rect x="204" y="135" width="29" height="28"
+                                      rx="2"/>
+                                <rect x="287" y="135" width="29" height="28"
+                                      rx="2"/>
+                                <rect x="330" y="135" width="29" height="28"
+                                      rx="2"/>
+
+                                <rect x="161" y="178" width="29" height="28"
+                                      rx="2"/>
+                                <rect x="204" y="178" width="29" height="28"
+                                      rx="2"/>
+                                <rect x="287" y="178" width="29" height="28"
+                                      rx="2"/>
+                                <rect x="330" y="178" width="29" height="28"
+                                      rx="2"/>
+                            </g>
+
+                            <!-- Entrance -->
+                            <rect x="242" y="175" width="36" height="62"
+                                  rx="3" fill="#4b8ee9"/>
+                            <rect x="250" y="184" width="20" height="53"
+                                  fill="#d8eaff"/>
+
+                            <!-- Building label -->
+                            <rect x="204" y="103" width="112" height="21"
+                                  rx="5" fill="#ffffff"/>
+                            <text x="260" y="117"
+                                  font-size="10"
+                                  font-weight="800"
+                                  text-anchor="middle"
+                                  fill="#234875">SMARTCAMPUS</text>
+
+                            <!-- Path -->
+                            <path d="M238 237 L282 237 L311 278 L209 278 Z"
+                                  fill="#ffffff" opacity=".9"/>
+
+                            <!-- Student 1 -->
+                            <g transform="translate(112 184)">
+                                <circle cx="0" cy="0" r="11"
+                                        fill="#f4bc94"/>
+                                <path d="M-11 -2 Q-8 -18 5 -12
+                                         Q13 -9 10 -1 L4 -6 L-7 -5 Z"
+                                      fill="#263c62"/>
+                                <path d="M-14 15 Q0 7 14 15
+                                         L18 52 L-18 52 Z"
+                                      fill="#2673e8"/>
+                                <path d="M-9 51 L-12 79 L-2 79 L3 52 Z"
+                                      fill="#324967"/>
+                                <path d="M6 51 L10 79 L20 79 L15 51 Z"
+                                      fill="#324967"/>
+                                <path d="M-15 19 L-27 43 L-19 47 L-5 28 Z"
+                                      fill="#f4bc94"/>
+                                <path d="M12 18 L25 36 L19 42 L7 29 Z"
+                                      fill="#f4bc94"/>
+                                <rect x="-22" y="33" width="25" height="19"
+                                      rx="3" fill="#193c78"/>
+                            </g>
+
+                            <!-- Student 2 -->
+                            <g transform="translate(390 190)">
+                                <circle cx="0" cy="0" r="11"
+                                        fill="#eab18b"/>
+                                <path d="M-12 -1 Q-13 -17 2 -15
+                                         Q14 -13 12 1 L6 -5 L-8 -6 Z"
+                                      fill="#26334f"/>
+                                <path d="M-14 15 Q0 7 14 15
+                                         L17 49 L-17 49 Z"
+                                      fill="#f4a65b"/>
+                                <path d="M-8 48 L-11 75 L-2 75 L3 49 Z"
+                                      fill="#435879"/>
+                                <path d="M6 48 L11 75 L20 75 L14 48 Z"
+                                      fill="#435879"/>
+                                <path d="M-14 18 L-24 38 L-18 43 L-4 28 Z"
+                                      fill="#eab18b"/>
+                                <path d="M13 18 L24 37 L18 42 L6 28 Z"
+                                      fill="#eab18b"/>
+                            </g>
+
+                            <!-- Small decorative plants -->
+                            <g fill="#38a977">
+                                <circle cx="93" cy="246" r="8"/>
+                                <circle cx="103" cy="239" r="9"/>
+                                <circle cx="418" cy="244" r="9"/>
+                                <circle cx="430" cy="237" r="10"/>
+                            </g>
+                        </svg>
+
+                        <div class="scene-caption">
+                            <span>📘 Learn</span>
+                            <span>👥 Connect</span>
+                            <span>☁️ Grow</span>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Portal highlights -->
+        <section class="highlights">
+            <div class="container highlight-grid">
+
+                <div class="highlight">
+                    <div class="highlight-icon">🎓</div>
+                    <div>
+                        <strong>One</strong>
+                        <small>Student Portal</small>
+                    </div>
+                </div>
+
+                <div class="highlight">
+                    <div class="highlight-icon">⚡</div>
+                    <div>
+                        <strong>Easy</strong>
+                        <small>Campus Access</small>
+                    </div>
+                </div>
+
+                <div class="highlight">
+                    <div class="highlight-icon">☁</div>
+                    <div>
+                        <strong>Cloud</strong>
+                        <small>Ready Platform</small>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Services -->
+        <section class="services" id="services">
+            <div class="container">
+
+                <div class="section-heading">
+                    <span class="eyebrow">OUR SERVICES</span>
+                    <h2>Campus Services</h2>
+                    <p>
+                        Explore the services designed to make your
+                        campus experience simpler and more connected.
+                    </p>
+                </div>
+
+                <div class="service-grid">
+
+                    <article class="service-card">
+                        <div class="service-icon blue">👤</div>
+                        <h3>Student Profile</h3>
+                        <p>
+                            Manage your personal information and
+                            access your student dashboard.
+                        </p>
+                    </article>
+
+                    <article class="service-card" id="events">
+                        <div class="service-icon pink">▦</div>
+                        <h3>Campus Events</h3>
+                        <p>
+                            Discover campus programmes, activities,
+                            workshops, and announcements.
+                        </p>
+                    </article>
+
+                    <article class="service-card">
+                        <div class="service-icon green">▤</div>
+                        <h3>Documents</h3>
+                        <p>
+                            Find student documents and important
+                            campus learning resources.
+                        </p>
+                    </article>
+
+                    <article class="service-card">
+                        <div class="service-icon purple">♧</div>
+                        <h3>Notifications</h3>
+                        <p>
+                            Stay informed about campus news and
+                            important account updates.
+                        </p>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- About -->
+        <section class="about" id="about">
+            <div class="container about-content">
+
+                <span class="eyebrow">ABOUT OUR PROJECT</span>
+
+                <h2>A Smarter Campus Experience</h2>
+
+                <p>
+                    SmartCampus Cloud is a student portal project that
+                    brings campus information and student services
+                    together in one accessible place. Sign in to visit
+                    your personal dashboard.
+                </p>
+
+                <a class="button button-primary"
+                   href="{{ url_for('login') }}">
+                    Get Started →
+                </a>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+
+            <a class="footer-brand" href="{{ url_for('home') }}">
+                🎓 Smart<span>Campus</span>
+            </a>
+
+            <nav class="footer-links" aria-label="Footer navigation">
+                <a href="{{ url_for('home') }}">Home</a>
+                <a href="#services">Services</a>
+                <a href="#events">Events</a>
+                <a href="#about">About</a>
+            </nav>
+
+            <p class="footer-copy">
+                © 2026 SmartCampus Cloud<br>
+                AWS Cloud Computing Final Project
+            </p>
+
+        </div>
+    </footer>
+
+</body>
+</html>

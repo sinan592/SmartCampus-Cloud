@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Campus Event</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f1f5ff;
+            padding: 30px;
+        }
+        .container {
+            max-width: 650px;
+            margin: 30px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            box-sizing: border-box;
+            margin-top: 7px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 12px 20px;
+            background: #2563eb;
+            color: white;
+            border: 0;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Add New Campus Event</h1>
+
+    <form method="POST">
+
+        <label>Event Name</label>
+        <input type="text" name="name" required>
+
+        <label>Description</label>
+        <textarea name="description" rows="4" required></textarea>
+
+        <label>Event Date</label>
+        <input type="date" name="date" required>
+
+        <label>Location</label>
+        <input type="text" name="location" required>
+
+        <button type="submit">Save Event</button>
+
+    </form>
+
+    <p>
+        <a href="{{ url_for('admin_events') }}">Back to Events</a>
+    </p>
+</div>
+
+</body>
+</html>

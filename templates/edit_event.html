@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Campus Event</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f5ff;
+            padding: 30px;
+            color: #172554;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 30px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        label {
+            display: block;
+            margin-top: 18px;
+            font-weight: bold;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 22px;
+            padding: 12px 22px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        a {
+            color: #2563eb;
+            text-decoration: none;
+            margin-left: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Edit Campus Event</h1>
+
+    <form method="POST">
+
+        <label>Event Name</label>
+        <input
+            type="text"
+            name="name"
+            value="{{ event.name }}"
+            required
+        >
+
+        <label>Description</label>
+        <textarea
+            name="description"
+            rows="4"
+            required
+        >{{ event.description }}</textarea>
+
+        <label>Event Date</label>
+        <input
+            type="date"
+            name="date"
+            value="{{ event.date.strftime('%Y-%m-%d') }}"
+            required
+        >
+
+        <label>Location</label>
+        <input
+            type="text"
+            name="location"
+            value="{{ event.location }}"
+            required
+        >
+
+        <button type="submit">Update Event</button>
+
+        <a href="{{ url_for('admin_events') }}">
+            Cancel
+        </a>
+
+    </form>
+
+</div>
+
+</body>
+</html>

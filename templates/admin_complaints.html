@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Complaints | SmartCampus</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .card {
+            background: white;
+            padding: 22px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px #ddd;
+        }
+
+        select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+
+        button {
+            background: #2563eb;
+            color: white;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .status {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+    <h1>Complaint Management</h1>
+    <p>Review and manage student complaints.</p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    {% endwith %}
+
+    {% if complaints %}
+        {% for complaint in complaints %}
+
+            <div class="card">
+
+                <h2>{{ complaint.subject }}</h2>
+
+                <p><strong>Student ID:</strong>
+                    {{ complaint.student_id }}
+                </p>
+
+                <p><strong>Category:</strong>
+                    {{ complaint.category }}
+                </p>
+
+                <p><strong>Description:</strong>
+                    {{ complaint.description }}
+                </p>
+
+                <p class="status">
+                    Current Status: {{ complaint.status }}
+                </p>
+
+                <form method="POST"
+                      action="{{ url_for('update_complaint', complaint_id=complaint.id) }}">
+
+                    <label>Update Status</label>
+
+                    <select name="status" required>
+                        <option value="Pending"
+                            {% if complaint.status == "Pending" %}selected{% endif %}>
+                            Pending
+                        </option>
+
+                        <option value="In Progress"
+                            {% if complaint.status == "In Progress" %}selected{% endif %}>
+                            In Progress
+                        </option>
+
+                        <option value="Resolved"
+                            {% if complaint.status == "Resolved" %}selected{% endif %}>
+                            Resolved
+                        </option>
+                    </select>
+
+                    <label>Admin Response</label>
+
+                    <textarea name="admin_response"
+                              rows="3"
+                              placeholder="Enter response">{{ complaint.admin_response or "" }}</textarea>
+
+                    <button type="submit">Update Complaint</button>
+
+                </form>
+
+                <small>
+                    Submitted:
+                    {{ complaint.created_at.strftime('%d-%m-%Y %H:%M') }}
+                </small>
+
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+        <div class="card">
+            <p>No complaints submitted yet.</p>
+        </div>
+    {% endif %}
+
+    <a href="{{ url_for('admin_dashboard') }}">Back to Admin Dashboard</a>
+
+</div>
+</body>
+</html>

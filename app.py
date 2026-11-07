@@ -19,6 +19,7 @@ from models.lesson import Lesson
 from models.event import Event
 from models.document import Document
 from models.notification import Notification
+from models.complaint import Complaint
 
 app = Flask(__name__)
 
@@ -144,9 +145,6 @@ def login():
     return render_template("login.html")
 
 # ---------------- STUDENT DASHBOARD ----------------
-
-# ---------------- STUDENT DASHBOARD ----------------
-
 @app.route("/dashboard")
 @login_required
 def dashboard():
@@ -311,8 +309,6 @@ def unenroll(enrollment_id):
 
     return redirect(url_for("my_courses"))
 
-
-# ---------------- STUDENT CAMPUS EVENTS PAGE ----------------
 # ---------------- STUDENT CAMPUS EVENTS ----------------
 
 @app.route("/events")
@@ -379,6 +375,52 @@ def notifications():
         user=current_user
     )
 
+    # ---------------- STUDENT COMPLAINTS ----------------
+
+@app.route("/complaints", methods=["GET", "POST"])
+@login_required
+def complaints():
+
+    if request.method == "POST":
+        subject = request.form.get("subject", "").strip()
+        category = request.form.get("category", "").strip()
+        description = request.form.get("description", "").strip()
+
+        if not subject or not category or not description:
+            flash("Please fill in all complaint details.", "error")
+            return redirect(url_for("complaints"))
+
+        try:
+            complaint = Complaint(
+                student_id=current_user.id,
+                subject=subject,
+                category=category,
+                description=description
+            )
+
+            db.session.add(complaint)
+            db.session.commit()
+
+            flash("Complaint submitted successfully!", "success")
+
+        except Exception:
+            db.session.rollback()
+            app.logger.exception("Complaint submission failed")
+            flash("Complaint could not be submitted.", "error")
+
+        return redirect(url_for("complaints"))
+
+    complaint_list = Complaint.query.filter_by(
+        student_id=current_user.id
+    ).order_by(
+        Complaint.created_at.desc()
+    ).all()
+
+    return render_template(
+        "complaints.html",
+        complaints=complaint_list
+    )
+
 
 # ---------------- STUDENT PROFILE PAGE ----------------
 @app.route("/profile", methods=["GET", "POST"])
@@ -418,8 +460,53 @@ def profile():
         user=current_user
     )
 
+# ---------------- ADMIN COMPLAINT MANAGEMENT ----------------
 
-# ---------------- ADMIN DASHBOARD ----------------
+@app.route("/admin/complaints")
+@admin_required
+def admin_complaints():
+
+    complaint_list = Complaint.query.order_by(
+        Complaint.created_at.desc()
+    ).all()
+
+    return render_template(
+        "admin_complaints.html",
+        complaints=complaint_list
+    )
+
+
+@app.route("/admin/complaints/update/<int:complaint_id>",
+           methods=["POST"])
+@admin_required
+def update_complaint(complaint_id):
+
+    complaint = Complaint.query.get_or_404(complaint_id)
+
+    status = request.form.get("status", "").strip()
+    response = request.form.get("admin_response", "").strip()
+
+    allowed_statuses = ["Pending", "In Progress", "Resolved"]
+
+    if status not in allowed_statuses:
+        flash("Invalid complaint status.", "error")
+        return redirect(url_for("admin_complaints"))
+
+    try:
+        complaint.status = status
+        complaint.admin_response = response or None
+
+        db.session.commit()
+
+        flash("Complaint updated successfully!", "success")
+
+    except Exception:
+        db.session.rollback()
+        app.logger.exception("Complaint update failed")
+        flash("Could not update complaint.", "error")
+
+    return redirect(url_for("admin_complaints"))
+
 # ---------------- ADMIN DASHBOARD ----------------
 @app.route("/admin")
 @admin_required
@@ -782,8 +869,6 @@ def logout():
 
     return redirect(url_for("home"))
 
-
-# ---------------- ADMIN NOTIFICATION MANAGEMENT ----------------
 
 
 # ---------------- ADMIN NOTIFICATION MANAGEMENT ----------------

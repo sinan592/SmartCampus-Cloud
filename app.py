@@ -20,6 +20,7 @@ from models.event import Event
 from models.document import Document
 from models.notification import Notification
 from models.complaint import Complaint
+from models.complaint_notification import ComplaintNotification
 
 app = Flask(__name__)
 
@@ -410,6 +411,7 @@ def complaints():
 
         return redirect(url_for("complaints"))
 
+    # Get complaints submitted by the logged-in student
     complaint_list = Complaint.query.filter_by(
         student_id=current_user.id
     ).order_by(
@@ -421,6 +423,23 @@ def complaints():
         complaints=complaint_list
     )
 
+
+# ---------------- STUDENT COMPLAINT NOTIFICATIONS ----------------
+
+@app.route("/complaint-notifications")
+@login_required
+def complaint_notifications():
+
+    notifications = ComplaintNotification.query.filter_by(
+        student_id=current_user.id
+    ).order_by(
+        ComplaintNotification.created_at.desc()
+    ).all()
+
+    return render_template(
+        "complaint_notifications.html",
+        notifications=notifications
+    )
 
 # ---------------- STUDENT PROFILE PAGE ----------------
 @app.route("/profile", methods=["GET", "POST"])
@@ -476,6 +495,7 @@ def admin_complaints():
     )
 
 
+
 @app.route("/admin/complaints/update/<int:complaint_id>",
            methods=["POST"])
 @admin_required
@@ -483,6 +503,7 @@ def update_complaint(complaint_id):
 
     complaint = Complaint.query.get_or_404(complaint_id)
 
+    old_status = complaint.status
     status = request.form.get("status", "").strip()
     response = request.form.get("admin_response", "").strip()
 
@@ -496,8 +517,20 @@ def update_complaint(complaint_id):
         complaint.status = status
         complaint.admin_response = response or None
 
-        db.session.commit()
+        # Create notification only when status changes
+        if old_status != status:
+            notification = ComplaintNotification(
+                student_id=complaint.student_id,
+                complaint_id=complaint.id,
+                title="Complaint Status Updated",
+                message=(
+                    f"Your complaint '{complaint.subject}' "
+                    f"status changed from {old_status} to {status}."
+                )
+            )
+            db.session.add(notification)
 
+        db.session.commit()
         flash("Complaint updated successfully!", "success")
 
     except Exception:
@@ -506,6 +539,9 @@ def update_complaint(complaint_id):
         flash("Could not update complaint.", "error")
 
     return redirect(url_for("admin_complaints"))
+
+
+
 
 # ---------------- ADMIN DASHBOARD ----------------
 @app.route("/admin")
